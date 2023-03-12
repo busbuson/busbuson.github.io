@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bus Timings</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$.getJSON("https://arrivelah2.busrouter.sg/?id=97039", 
+			function(data){
+				var bus2 = data.services[0]; // assuming the first service is bus 2
+				var nextBus = new Date(bus2.next.time);
+				//var subsequentBus = new Date(bus2.subsequent.time);
+				var next2Bus = new Date(bus2.next2.time);
+				var next3Bus = new Date(bus2.next3.time);
+				var timeDiffNextBus = getTimeDiff(new Date(), nextBus);
+				//var timeDiffSubsequentBus = getTimeDiff(new Date(), subsequentBus);
+				var timeDiffNext2Bus = getTimeDiff(new Date(), next2Bus);
+				var timeDiffNext3Bus = getTimeDiff(new Date(), next3Bus);
+				document.getElementById("next-bus-time").innerHTML = timeDiffNextBus;
+				//document.getElementById("subsequent-bus-time").innerHTML = timeDiffSubsequentBus;
+				document.getElementById("next2-bus-time").innerHTML = timeDiffNext2Bus;
+				document.getElementById("next3-bus-time").innerHTML = timeDiffNext3Bus;
+			});
+		});
+
+		function getTimeDiff(date1, date2) {
+			var diffInMs = date2 - date1;
+			
+			if(diffInMs <0)
+				diffInMs = 0;
+			
+			// convert time difference to hours, minutes, and seconds
+			const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+			const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+			//const timeDiffStr = `${hours}h ${minutes}m ${seconds}s`;
+			const timeDiffStr = `${minutes} min(s) ${seconds} sec(s)`;
+			//const timeDiffStr = `${minutes} min(s)`;			
+			return timeDiffStr;
+			//return diffInMin + " min";
+		}
+	</script>
+</head>
+<body>
+	<h1>Bus Timings</h1>
+	<h2>Bus 2</h2>
+	<ul>
+		<li>Next bus:&nbsp;&nbsp;&nbsp;&nbsp;<span id="next-bus-time"></span></li>
+		<!--<li>Subsequent bus: <span id="subsequent-bus-time"></span></li> -->
+		<li>Next 2 bus:&nbsp;<span id="next2-bus-time"></span></li>
+		<li>Next 3 bus:&nbsp;<span id="next3-bus-time"></span></li>
+	</ul>
+</body>
+</html>
