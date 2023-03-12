@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+		setTimeout(function() {
+			location.reload();
+		}, 10000);
 		$(document).ready(function(){
 			$.getJSON("https://arrivelah2.busrouter.sg/?id=97039", 
 			function(data){
