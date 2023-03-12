@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON Data Display</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>Bus Number</th>
+				<th>Operator</th>
+				<th>Next</th>
+				<th>Subsequent</th>
+				<th>Next2</th>
+				<th>Next3</th>
+			</tr>
+		</thead>
+		<tbody id="busData">
+		</tbody>
+	</table>
+
+	<script>
+		fetch('https://arrivelah2.busrouter.sg/?id=84031')
+			.then(response => response.json())
+			.then(data => {
+				// Sort data by bus number
+				data.services.sort((a, b) => a.no - b.no);
+
+				// Iterate over data and display in table
+				const busData = document.getElementById('busData');
+				data.services.forEach(service => {
+					const row = document.createElement('tr');
+					// Assuming service.next.time is a JSON string containing the date and time in ISO format
+						const date = new Date(service.next.time);
+						const currentTime = Date.now();
+						const timeDiff = date - currentTime;
+
+						// Format the time difference in a human-readable format
+						const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+						const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+						const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+
+						const timeDiffStr = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
+						//document.querySelector('td').textContent = timeDiffStr;	
+						//*/
+					row.innerHTML = `					
+						<td>${service.no}</td>
+						<td>${service.operator}</td>
+						<td>${timeDiffStr}</td>
+						<td>${JSON.stringify(service.subsequent.time)}</td>
+						<td>${JSON.stringify(service.next2.time)}</td>
+						<td>${JSON.stringify(service.next3.time)}</td>
+					`;
+					busData.appendChild(row);
+				});
+			})
+			.catch(error => console.error(error));
+	</script>
+</body>
+</html>
