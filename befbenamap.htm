@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Mapbox Static Map Example</title>
-	  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, user-scalable=no">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.2, minimum-scale=1, maximum-scale=2, user-scalable=no">
   </head>
   <body>
     <div id="map"></div>
@@ -52,12 +52,12 @@
           mapImg2.src = mapUrl2;
 		  
           // Add the image element to the HTML document
-			const mapContainer = document.getElementById('map');
-			mapContainer.appendChild(mapImg);
-			const lineBreak = document.createElement('br');
-			mapContainer.appendChild(lineBreak);
-			const mapContainer2 = document.getElementById('map');
-			mapContainer2.appendChild(mapImg2);
+		//const mapContainer = document.getElementById('map');
+		//mapContainer.appendChild(mapImg);
+		//const lineBreak = document.createElement('br');
+		//mapContainer.appendChild(lineBreak);
+		const mapContainer2 = document.getElementById('map');
+		mapContainer2.appendChild(mapImg2);
 		  
         })
         .catch(error => console.error(error));
