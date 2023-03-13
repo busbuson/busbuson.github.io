@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Mapbox Static Map</title>
+    <title>Mapbox Static Map Example</title>
   </head>
   <body>
-    <h1>Mapbox Static Map Example</h1>
-    <img src="" id="map-img" alt="Mapbox Static Map">
+    <div id="map"></div>
     <script>
-      // JSON data containing GPS coordinates
-      const jsonUrl = "https://arrivelah2.busrouter.sg/?id=97039";
+      // Replace YOUR_ACCESS_TOKEN with your Mapbox access token
+      const accessToken = 'pk.eyJ1IjoibW9vb2IiLCJhIjoiY2xmNjhmNmU3MWptYzNxbGhqdnNrc3hmYSJ9.y6fr5WQfMHummOjH2y2fHg';
       
-      // Mapbox access token
-      const accessToken = "pk.eyJ1IjoibW9vb2IiLCJhIjoiY2xmNjhmNmU3MWptYzNxbGhqdnNrc3hmYSJ9.y6fr5WQfMHummOjH2y2fHg";
-      
-      // Get JSON data and extract latitude and longitude
-      fetch(jsonUrl)
+      // Replace JSON_WEB_LINK with the link to your JSON data
+      fetch('https://arrivelah2.busrouter.sg/?id=97039')
         .then(response => response.json())
         .then(data => {
+          // Extract the latitude and longitude values from the JSON
           const lat = data.services[0].next.lat;
           const lng = data.services[0].next.lng;
-          const lat2 = data.services[0].next2.lat;
-          const lng2 = data.services[0].next2.lng;
           
-          // Construct the map URL
-          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96893633646984,1.3553734239591773),pin-s+ff0000(${lng},${lat}), pin-s+ff0000(${lng2},${lat2})/${lng},${lat},13.5,0/600x400?access_token=${accessToken}`;
-          document.write(mapUrl);
-          // Set the image source to the map URL
-          const img = document.getElementById("map-img");
-          img.src = mapUrl;
+          // Construct the Mapbox static map URL with the latitude and longitude values
+          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(${lng},${lat})/103.9688,1.3596,14.99,0/600x400?access_token=${accessToken}`;
+          
+          // Create an image element with the Mapbox static map URL as the source
+          const mapImg = document.createElement('img');
+          mapImg.src = mapUrl;
+          
+          // Add the image element to the HTML document
+          const mapContainer = document.getElementById('map');
+          mapContainer.appendChild(mapImg);
         })
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
     </script>
   </body>
 </html>
