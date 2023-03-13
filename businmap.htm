@@ -16,9 +16,11 @@
           // Extract the latitude and longitude values from the JSON
           const lat = data.services[0].next.lat;
           const lng = data.services[0].next.lng;
+          const lat2 = data.services[0].next2.lat;
+          const lng2 = data.services[0].next2.lng;
           
           // Construct the Mapbox static map URL with the latitude and longitude values
-          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(${lng},${lat})/103.9688,1.3596,14.99,0/600x400?access_token=${accessToken}`;
+          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(${lng},${lat}),pin-s+ff0000(${lng2},${lat2})/103.9688,1.3596,14.99,0/600x400?access_token=${accessToken}`;
           
           // Create an image element with the Mapbox static map URL as the source
           const mapImg = document.createElement('img');
