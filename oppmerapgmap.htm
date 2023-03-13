@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Bus Timings</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Other head elements -->
+      <script>
+         // Detect user agent and set zoom level accordingly
+         var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+         var isiPhone = navigator.userAgent.toLowerCase().indexOf("iphone") > -1;
+         var zoomLevel = 1;         
+         if (isAndroid) {
+         	zoomLevel = 1;
+         } else if (isiPhone) {
+         	zoomLevel = 1.4;
+         }         
+         // Set viewport meta tag with appropriate zoom level
+         var viewport = document.querySelector("meta[name=viewport]");
+         viewport.setAttribute("content", "width=device-width, initial-scale=" + zoomLevel);
+         
+         function updateTime(id, busData) {
+         	var bus = busData; // assuming the first service is the bus we want to display			
+         	var nextBus = new Date(bus.next.time);			
+         	var next2Bus = new Date(bus.next2.time);
+         	var next3Bus = new Date(bus.next3.time);
+         	var timeDiffNextBus = getTimeDiff(new Date(), nextBus);       
+         	var timeDiffNext2Bus = getTimeDiff(new Date(), next2Bus);
+         	var timeDiffNext3Bus = getTimeDiff(new Date(), next3Bus);
+         	document.getElementById(id + "-next-bus-time").innerHTML = timeDiffNextBus;         
+         	document.getElementById(id + "-next2-bus-time").innerHTML = timeDiffNext2Bus;
+         	document.getElementById(id + "-next3-bus-time").innerHTML = timeDiffNext3Bus;
+         }		
+         function getTimeDiff(date1, date2) {
+         	var diffInMs = date2 - date1;
+         	if(diffInMs <0)
+         	diffInMs = 0;
+         	// convert time difference to hours, minutes, and seconds
+         	const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+         	const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+         	const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);			
+         	const timeDiffStr = `${minutes} min(s) ${seconds} sec(s)`;				
+         	return timeDiffStr;
+         }
+      </script>
+      <script type="text/javascript">
+         setTimeout(function() {
+                location.reload(); }, 10000);
+         
+               const accessToken = 'pk.eyJ1IjoibW9vb2IiLCJhIjoiY2xmNjhmNmU3MWptYzNxbGhqdnNrc3hmYSJ9.y6fr5WQfMHummOjH2y2fHg';
+         fetch('https://arrivelah2.busrouter.sg/?id=96061')
+                  .then(response => response.json())
+                  .then(data => {		   
+            const services = data.services.sort((a, b) => a.no - b.no);
+            
+         	const count = services.length;
+         	//window.alert(count);
+            //var busIds = ["2", "5", "24"]; // add more bus IDs here if needed			
+         	for (var i = 0; i < services.length; i++) {				
+         		updateTime("bus-" + services[i].no, services[i]);				
+         	}
+         ///*
+         const lat2 = services[0].next.lat;
+         const lng2 = services[0].next.lng;
+         const lat5 = services[1].next.lat;
+         const lng5 = services[1].next.lng;
+         const lat24 = services[2].next.lat;
+         const lng24 = services[2].next.lng;
+         const mlat = 1.3434;
+         const mlng = 103.9611;
+         const bslat = 1.3469;
+         const bslng = 103.9629;
+         const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(${bslng},${bslat}),pin-s-${services[0].no}+ff0000(${lng2},${lat2}),pin-s-${services[1].no}+ff0000(${lng5},${lat5}),pin-s-${services[2].no}+ff0000(${lng24},${lat24})/${mlng},${mlat},13.49,0/300x250?access_token=${accessToken}`;
+         //document.write(mapUrl); 
+         const mapImg = document.createElement('img');
+               mapImg.src = mapUrl;
+         const mapContainer = document.getElementById('map');
+               mapContainer.appendChild(mapImg);
+         
+         //*/
+            sleep(500);		   
+         })
+               .catch(error => console.error(error));
+               
+      </script>
+   </head>
+   <body>
+      <div id="map"></div>
+	  <h1>Bus Timings</h1>
+      <!-- Bus 2 -->
+      <h2>Bus 2</h2>
+      <ul>
+         <li>Next bus:&nbsp;&nbsp;&nbsp;&nbsp;<span id="bus-2-next-bus-time"></span></li>
+         <li>Next 2 bus:&nbsp;<span id="bus-2-next2-bus-time"></span></li>
+         <li>Next 3 bus:&nbsp;<span id="bus-2-next3-bus-time"></span></li>
+      </ul>
+      <!-- Bus 5 -->
+      <h2>Bus 5</h2>
+      <ul>
+         <li>Next bus:&nbsp;&nbsp;&nbsp;&nbsp;<span id="bus-5-next-bus-time"></span></li>
+         <li>Next 2 bus:&nbsp;<span id="bus-5-next2-bus-time"></span></li>
+         <li>Next 3 bus:&nbsp;<span id="bus-5-next3-bus-time"></span></li>
+      </ul>
+      <!-- Bus 24 -->
+      <h2>Bus 24</h2>
+      <ul>
+         <li>Next bus:&nbsp;&nbsp;&nbsp;&nbsp;<span id="bus-24-next-bus-time"></span></li>
+         <li>Next 2 bus:&nbsp;<span id="bus-24-next2-bus-time"></span></li>
+         <li>Next 3 bus:&nbsp;<span id="bus-24-next3-bus-time"></span></li>
+      </ul>
+   </body>
+</html>
