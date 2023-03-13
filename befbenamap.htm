@@ -9,9 +9,9 @@
 		var isAndroid = userAgent.indexOf("android") > -1;
 		var isIphone = userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1;
 		if (isAndroid) {
-			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.1, maximum-scale=1, user-scalable=no');
 		} else if (isIphone) {
-			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.2, maximum-scale=1.2, user-scalable=no');
+			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.1, maximum-scale=1.2, user-scalable=no');
 		}
 	</script>
   </head>
