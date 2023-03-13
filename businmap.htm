@@ -25,7 +25,7 @@
           
           // Construct the map URL
           const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96893633646984,1.3553734239591773),pin-s+ff0000(${lng},${lat}), pin-s+ff0000(${lng2},${lat2})/${lng},${lat},13.5,0/600x400?access_token=${accessToken}`;
-          
+          document.write(mapUrl);
           // Set the image source to the map URL
           const img = document.getElementById("map-img");
           img.src = mapUrl;
