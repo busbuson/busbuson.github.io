@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Display Bus 2 Data</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<h1>Bus 2 Data</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Service No.</th>
+				<th>Operator</th>
+				<th>Next Arrival</th>
+				<th>Subsequent Arrival</th>
+				<th>Next2 Arrival</th>
+				<th>Next3 Arrival</th>
+			</tr>
+		</thead>
+		<tbody id="bus2-data">
+		</tbody>
+	</table>
+
+	<script>
+		fetch('https://arrivelah2.busrouter.sg/?id=84031')
+		  .then(response => response.json())
+		  .then(data => {
+
+				const bus2 = data.services.find(service => service.no === "24");
+				const currentTime = new Date();
+				const arrivalTime1 = new Date(bus2.next.time);
+				const arrivalTime2 = new Date(bus2.subsequent.time);
+				const arrivalTime3 = new Date(bus2.next2.time);
+				const arrivalTime4 = new Date(bus2.next3.time);				
+				const timeDifference1 = Math.round((arrivalTime1 - currentTime) / 1000 / 60);
+				const timeDifference2 = Math.round((arrivalTime2 - currentTime) / 1000 / 60);
+				const timeDifference3 = Math.round((arrivalTime3 - currentTime) / 1000 / 60);
+				const timeDifference4 = Math.round((arrivalTime4 - currentTime) / 1000 / 60);
+				//const bus2Data = `
+				//	<tr>
+				//		<td>${bus2.no}</td>
+				//		<td>${bus2.operator}</td>
+				//		<td>${bus2.next.time}</td>
+				//		<td>${bus2.subsequent.time}</td>
+				//		<td>${bus2.next2.time}</td>
+				//		<td>${bus2.next3.time}</td>
+				//	</tr>
+				//`;
+				
+				const bus2Data = `
+					<tr>
+						<td>${bus2.no}</td>
+						<td>${bus2.operator}</td>
+						<td>${timeDifference1}</td>
+						<td>${timeDifference2}</td>
+						<td>${timeDifference3}</td>
+						<td>${timeDifference4}</td>
+					</tr>
+				`;
+				document.getElementById("bus2-data").innerHTML = bus2Data;
+			})
+			.catch(error => console.error(error));
+	</script>
+</body>
+</html>
+
+<!--
+
+const arrivalTime = new Date(data.services[0].next.time);
+      const currentTime = new Date();
+      const timeDifference = Math.round((arrivalTime - currentTime) / 1000 / 60); // Calculate the time difference in minutes
+      
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display GPS Locations</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.getJSON("https://example.com/json-data", function(data) {
+          var locations = data.services[0]; // assuming there's only one service
+          var lat1 = locations.next.lat;
+          var lng1 = locations.next.lng;
+          var lat2 = locations.subsequent.lat;
+          var lng2 = locations.subsequent.lng;
+          var lat3 = locations.next2.lat;
+          var lng3 = locations.next2.lng;
+          
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: new google.maps.LatLng(lat1, lng1),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          });
+          
+          var marker1 = new google.maps.Marker({
+            position: new google.maps.LatLng(lat1, lng1),
+            map: map,
+            title: "Location 1"
+          });
+          
+          var marker2 = new google.maps.Marker({
+            position: new google.maps.LatLng(lat2, lng2),
+            map: map,
+            title: "Location 2"
+          });
+          
+          var marker3 = new google.maps.Marker({
+            position: new google.maps.LatLng(lat3, lng3),
+            map: map,
+            title: "Location 3"
+          });
+        });
+      });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  </head>
+  <body>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+  </body>
+</html>
+
+-->
+
+
+  
+	  
