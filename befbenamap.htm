@@ -2,24 +2,17 @@
 <html>
   <head>
     <title>Mapbox Static Map Example</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1", user-scalable=no>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Other head elements -->
-
 	<script>
-		// Detect user agent and set zoom level accordingly
-		var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-		var isiPhone = navigator.userAgent.toLowerCase().indexOf("iphone") > -1;
-		var zoomLevel = 1;
-
+		var userAgent = navigator.userAgent.toLowerCase();
+		var isAndroid = userAgent.indexOf("android") > -1;
+		var isIphone = userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1;
 		if (isAndroid) {
-			zoomLevel = 1.2;
-		} else if (isiPhone) {
-			zoomLevel = 1.3;
+			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+		} else if (isIphone) {
+			document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.2, maximum-scale=1.2, user-scalable=no');
 		}
-
-		// Set viewport meta tag with appropriate zoom level
-		var viewport = document.querySelector("meta[name=viewport]");
-		viewport.setAttribute("content", "width=device-width, initial-scale=" + zoomLevel);
 	</script>
   </head>
   <body>
