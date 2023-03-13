@@ -1,45 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Get GPS Location and Plot on Map</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+  <meta charset='utf-8' />
+  <title>Display Current Location on Map using Mapbox</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css' rel='stylesheet' />
   <style>
-    /* Set the height of the map container */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
     #map {
-      height: 100%;
+      height: 100vh;
+      width: 100%;
     }
   </style>
 </head>
 <body>
   <div id='map'></div>
   <script>
-    // Initialize the map
-    mapboxgl.accessToken = 'pk.eyJ1IjoibW9vb2IiLCJhIjoiY2xmNjhmNmU3MWptYzNxbGhqdnNrc3hmYSJ9.y6fr5WQfMHummOjH2y2fHg';
+    mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+
     var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-122.4194, 37.7749], // San Francisco
-      zoom: 12
+      center: [0, 0],
+      zoom: 2
     });
 
-    // Add the user's location as a marker
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var marker = new mapboxgl.Marker()
-        .setLngLat([position.coords.longitude, position.coords.latitude])
-        .addTo(map);
-    });
-
-    // Disable rotation and zoom on the map
-    map.dragRotate.disable();
-    map.touchZoomRotate.disableRotation();
-
-    // Disable scroll zoom on iOS devices
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-      map.scrollZoom.disable();
+    function displayUserLocation() {
+      // Check if the user's device supports geolocation
+      if ('geolocation' in navigator) {
+        // Request permission to access the user's location on iOS devices
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+          navigator.permissions.query({name:'geolocation'}).then(function(result) {
+            if (result.state === 'granted') {
+              // Display the user's location on the map
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                map.setCenter([longitude, latitude]);
+                map.setZoom(15);
+                new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+              });
+            } else if (result.state === 'prompt') {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                map.setCenter([longitude, latitude]);
+                map.setZoom(15);
+                new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+              });
+            } else if (result.state === 'denied') {
+              alert('Please enable location services to use this feature.');
+            }
+          });
+        } else {
+          // Display the user's location on the map
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            map.setCenter([longitude, latitude]);
+            map.setZoom(15);
+            new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+          });
+        }
+      } else {
+        alert('Sorry, your browser does not support geolocation.');
+      }
     }
+
+    displayUserLocation();
   </script>
 </body>
 </html>
