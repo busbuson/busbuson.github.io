@@ -38,8 +38,8 @@
          // const lng2 = data.services[1].next2.lng;
           
           // Construct the Mapbox static map URL with the latitude and longitude values
-          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96894062959022,1.35535317187612),pin-s-${data.services[0].no}+ff0000(${lng},${lat})/103.9689,1.3586,13.49,0/400x200?access_token=${accessToken}`;
-          const mapUrl2 = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96894062959022,1.35535317187612),pin-s-${data.services[0].no}+ff0000(${lng},${lat})/${lng},${lat},14.99,0/400x200?access_token=${accessToken}`;
+          const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96894062959022,1.35535317187612),pin-s-${data.services[0].no}+ff0000(${lng},${lat})/103.9689,1.3586,13.49,0/300x250?access_token=${accessToken}`;
+          const mapUrl2 = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+000000(103.96894062959022,1.35535317187612),pin-s-${data.services[0].no}+ff0000(${lng},${lat})/${lng},${lat},14.99,0/300x250?access_token=${accessToken}`;
 		  //window.alert(data.services[0].no);
 		  //window.alert(data.services[1].no);
 		  //window.alert(mapUrl);
@@ -51,11 +51,12 @@
           mapImg2.src = mapUrl2;
 		  
           // Add the image element to the HTML document
-          const mapContainer = document.getElementById('map');
-          mapContainer.appendChild(mapImg);
-		  
-		  const mapContainer2 = document.getElementById('map');
-          mapContainer2.appendChild(mapImg2);
+			const mapContainer = document.getElementById('map');
+			mapContainer.appendChild(mapImg);
+			const lineBreak = document.createElement('br');
+			mapContainer.appendChild(lineBreak);
+			const mapContainer2 = document.getElementById('map');
+			mapContainer2.appendChild(mapImg2);
 		  
         })
         .catch(error => console.error(error));
