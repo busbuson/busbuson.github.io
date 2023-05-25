@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Save and Read Example</title>
+</head>
+<body>
+  <h1>File Save and Read Example</h1>
+
+  <button onclick="saveExampleFile()">Save File</button>
+
+  <input type="file" id="file-input" onchange="readFile(event)" />
+
+  <script>
+    // Function to save a file
+    function saveFile(filename, text) {
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+
+    // Function to read a file
+    function readFile(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const contents = event.target.result;
+        console.log('File contents:', contents);
+        // Do something with the file contents here
+      };
+
+      reader.onerror = function(event) {
+        console.error('File could not be read! Code ' + event.target.error.code);
+      };
+
+      reader.readAsText(file);
+    }
+
+    // Function to save an example file
+    function saveExampleFile() {
+      const exampleText = 'This is an example text that we want to save to a file.';
+      saveFile('example.txt', exampleText);
+    }
+  </script>
+</body>
+</html>
